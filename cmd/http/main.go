@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"log"
+	"github.com/rs/zerolog/log"
 	"os"
 	"os/signal"
 )
@@ -14,7 +14,7 @@ func main() {
 	signal.Notify(sc, os.Interrupt)
 	go func() {
 		_ = <-sc
-		log.Println("gracefully shutting down")
+		log.Info().Msg("gracefully shutting down")
 		_ = app.Shutdown()
 	}()
 
@@ -22,9 +22,10 @@ func main() {
 		return c.SendString("Hello, world :)")
 	})
 
+	log.Info().Msg("server start listening")
 	err := app.Listen(":3000")
 	if err != nil {
-		log.Panic(err)
+		log.Panic().Err(err).Msg("server stop listening")
 	}
-	log.Println("cleanup task")
+	log.Info().Msg("cleanup task")
 }
