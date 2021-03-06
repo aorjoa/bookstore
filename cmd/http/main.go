@@ -1,15 +1,14 @@
 package main
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"github.com/Aorjoa/bookstore/router"
 	"github.com/rs/zerolog/log"
 	"os"
 	"os/signal"
 )
 
 func main() {
-	app := fiber.New()
-
+	app := router.Init()
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, os.Interrupt)
 	go func() {
@@ -17,10 +16,6 @@ func main() {
 		log.Info().Msg("gracefully shutting down")
 		_ = app.Shutdown()
 	}()
-
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, world :)")
-	})
 
 	log.Info().Msg("server start listening")
 	err := app.Listen(":3000")
