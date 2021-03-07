@@ -1,8 +1,11 @@
 package usecase
 
+import "gorm.io/gorm"
+
 type bookUseCase struct {
+	db *gorm.DB
 }
 
-func NewBookUseCase() BookUseCase {
-	return &bookUseCase{}
+func NewBookUseCase(db *gorm.DB) BookUseCase {
+	return &bookUseCase{db}
 }
