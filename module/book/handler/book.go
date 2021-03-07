@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func (b *HttpBookHandler) BookList(c *fiber.Ctx) error {
+func (b *HttpBookHandler) GetBookList(c *fiber.Ctx) error {
 	return c.SendString("book list")
 }
 
