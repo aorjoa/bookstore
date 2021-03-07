@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"github.com/Aorjoa/bookstore/module/book/converter"
 	"github.com/Aorjoa/bookstore/module/book/dto"
 	"github.com/Aorjoa/bookstore/module/book/entity"
 	"github.com/gofiber/fiber/v2"
@@ -9,7 +10,15 @@ import (
 )
 
 func (b *HttpBookHandler) GetBookList(c *fiber.Ctx) error {
-	return c.SendString("book list")
+	bl, err := b.BookRepository.GetBookList()
+	if err != nil {
+		// TODO: consider to centralize error handler
+		log.Err(err).Msg("cannot get book list")
+		return c.Status(http.StatusInternalServerError).SendString("cannot get book list")
+	}
+
+	brl := converter.ConvertBookEntityListToBookResponseList(bl)
+	return c.JSON(brl)
 }
 
 func (b *HttpBookHandler) CreateBook(c *fiber.Ctx) error {
