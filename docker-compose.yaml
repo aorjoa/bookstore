@@ -6,9 +6,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_USER=unicorn_user
-      - POSTGRES_PASSWORD=magical_password
-      - POSTGRES_DB=rainbow_database
+      - POSTGRES_USER=username
+      - POSTGRES_PASSWORD=P@ssw0rd
+      - POSTGRES_DB=bookstore
     volumes:
       - database-data:/var/lib/postgresql/data/
 
