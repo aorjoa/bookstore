@@ -1,4 +1,4 @@
-package router
+package config
 
 import (
 	bookHandler "github.com/Aorjoa/bookstore/module/book/handler"
@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func Init(db *gorm.DB) *fiber.App {
+func Router(db *gorm.DB) *fiber.App {
 	app := fiber.New()
 
 	// grouping api v1
