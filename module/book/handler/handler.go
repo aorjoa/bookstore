@@ -15,4 +15,5 @@ func NewBookHttpHandler(router fiber.Router, u usecase.BookUseCase) {
 	}
 
 	router.Get("", handler.BookList)
+	router.Post("", handler.CreateBook)
 }
