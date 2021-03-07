@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog/log"
 	"net/http"
+	"strconv"
 )
 
 func (b *HttpBookHandler) GetBookList(c *fiber.Ctx) error {
@@ -18,6 +19,25 @@ func (b *HttpBookHandler) GetBookList(c *fiber.Ctx) error {
 	}
 
 	brl := converter.ConvertBookEntityListToBookResponseList(bl)
+	return c.JSON(brl)
+}
+
+func (b *HttpBookHandler) GetBookByID(c *fiber.Ctx) error {
+	pbID := c.Params("bID")
+	bID, err := strconv.ParseUint(pbID, 0, 64)
+	if err != nil {
+		// TODO: consider to centralize error handler
+		log.Err(err).Msg("cannot parse param book id")
+		return c.Status(http.StatusInternalServerError).SendString("cannot parse param book id")
+	}
+	bi, err := b.BookRepository.GetBookByID(bID)
+	if err != nil {
+		// TODO: consider to centralize error handler
+		log.Err(err).Msg("cannot get book by id")
+		return c.Status(http.StatusInternalServerError).SendString("cannot get book by id")
+	}
+
+	brl := converter.ConvertBookEntityToBookResponse(bi)
 	return c.JSON(brl)
 }
 

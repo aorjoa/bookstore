@@ -13,3 +13,9 @@ func (br *bookRepository) GetBookList() ([]entity.Book, error) {
 	err := br.Conn.Find(&bl).Error
 	return bl, err
 }
+
+func (br *bookRepository) GetBookByID(bID uint64) (*entity.Book, error) {
+	var b entity.Book
+	err := br.Conn.First(&b, bID).Error
+	return &b, err
+}

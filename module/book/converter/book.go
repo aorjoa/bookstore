@@ -20,3 +20,13 @@ func ConvertBookEntityListToBookResponseList(bl []entity.Book) []dto.BookRespons
 	}
 	return brl
 }
+
+func ConvertBookEntityToBookResponse(bi *entity.Book) *dto.BookResponse {
+	return &dto.BookResponse{
+		ID:       &bi.ID,
+		Name:     bi.Name,
+		ISBN:     bi.ISBN,
+		Language: bi.Language,
+		Status:   bi.Status,
+	}
+}
