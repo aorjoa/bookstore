@@ -63,3 +63,19 @@ func (b *HttpBookHandler) CreateBook(c *fiber.Ctx) error {
 	}
 	return c.JSON(br)
 }
+
+func (b *HttpBookHandler) DeleteBookByID(c *fiber.Ctx) error {
+	pbID := c.Params("bID")
+	bID, err := strconv.ParseUint(pbID, 0, 64)
+	if err != nil {
+		// TODO: consider to centralize error handler
+		log.Err(err).Msg("cannot parse param book id")
+		return c.Status(http.StatusInternalServerError).SendString("cannot parse param book id")
+	}
+	if err := b.BookRepository.DeleteBookByID(bID); err != nil {
+		// TODO: consider to centralize error handler
+		log.Err(err).Msg("cannot get book by id")
+		return c.Status(http.StatusInternalServerError).SendString("cannot get book by id")
+	}
+	return c.Status(http.StatusNoContent).JSON(nil)
+}

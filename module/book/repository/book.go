@@ -19,3 +19,8 @@ func (br *bookRepository) GetBookByID(bID uint64) (*entity.Book, error) {
 	err := br.Conn.First(&b, bID).Error
 	return &b, err
 }
+
+func (br *bookRepository) DeleteBookByID(bID uint64) error {
+	err := br.Conn.Delete(&entity.Book{}, bID).Error
+	return err
+}

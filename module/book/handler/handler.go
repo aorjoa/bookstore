@@ -20,4 +20,5 @@ func NewBookHttpHandler(router fiber.Router, u usecase.BookUseCase, br repositor
 	router.Get("/:bID", handler.GetBookByID)
 	router.Get("", handler.GetBookList)
 	router.Post("", handler.CreateBook)
+	router.Delete("/:bID", handler.DeleteBookByID)
 }
