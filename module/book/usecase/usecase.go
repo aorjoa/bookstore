@@ -1,11 +1,13 @@
 package usecase
 
-import "gorm.io/gorm"
+import (
+	"github.com/Aorjoa/bookstore/module/book/repository"
+)
 
 type bookUseCase struct {
-	db *gorm.DB
+	bookRepo repository.BookRepository
 }
 
-func NewBookUseCase(db *gorm.DB) BookUseCase {
-	return &bookUseCase{db}
+func NewBookUseCase(bookRepo repository.BookRepository) BookUseCase {
+	return &bookUseCase{bookRepo}
 }

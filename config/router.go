@@ -15,8 +15,8 @@ func Router(db *gorm.DB) *fiber.App {
 	v1 := app.Group("/api/v1")
 
 	bg := v1.Group("/books")
-	buc := bookUseCase.NewBookUseCase(db)
 	br := bookRepository.NewBookRepository(db)
-	bookHandler.NewBookHttpHandler(bg, buc, br)
+	buc := bookUseCase.NewBookUseCase(br)
+	bookHandler.NewBookHttpHandler(bg, buc)
 	return app
 }
