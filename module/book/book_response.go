@@ -1,4 +1,4 @@
-package dto
+package book
 
 type BookResponse struct {
 	ID       *uint   `json:"id"`

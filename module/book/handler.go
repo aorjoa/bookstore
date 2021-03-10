@@ -1,13 +1,26 @@
-package handler
+package book
 
 import (
-	"github.com/Aorjoa/bookstore/module/book/dto"
-	"github.com/Aorjoa/bookstore/module/book/entity"
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog/log"
 	"net/http"
 	"strconv"
 )
+
+type HttpBookHandler struct {
+	BookUseCase BookUseCase
+}
+
+func NewBookHttpHandler(router fiber.Router, u BookUseCase) {
+	handler := &HttpBookHandler{
+		BookUseCase: u,
+	}
+
+	router.Get("/:bID", handler.GetBookByID)
+	router.Get("", handler.GetBookList)
+	router.Post("", handler.CreateBook)
+	router.Delete("/:bID", handler.DeleteBookByID)
+}
 
 func (b *HttpBookHandler) GetBookList(c *fiber.Ctx) error {
 	brl, err := b.BookUseCase.GetBookList()
@@ -37,14 +50,14 @@ func (b *HttpBookHandler) GetBookByID(c *fiber.Ctx) error {
 }
 
 func (b *HttpBookHandler) CreateBook(c *fiber.Ctx) error {
-	var br dto.CreateBookRequest
+	var br CreateBookRequest
 	if err := c.BodyParser(&br); err != nil {
 		// TODO: consider to centralize error handler
 		log.Err(err).Msg("bad request")
 		return c.Status(http.StatusBadRequest).SendString("bad request")
 	}
 
-	be := &entity.Book{
+	be := &Book{
 		Name:     br.Name,
 		ISBN:     br.ISBN,
 		Language: br.Language,
