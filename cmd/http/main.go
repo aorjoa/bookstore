@@ -1,18 +1,19 @@
 package main
 
 import (
-	"github.com/Aorjoa/bookstore/config"
+	"github.com/Aorjoa/bookstore/router"
+	db2 "github.com/Aorjoa/bookstore/db"
 	"github.com/rs/zerolog/log"
 	"os"
 	"os/signal"
 )
 
 func main() {
-	db, err := config.DB()
+	db, err := db2.DB()
 	if err != nil {
 		log.Panic().Err(err).Msg("cannot connect to database")
 	}
-	app := config.Router(db)
+	app := router.Router(db)
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, os.Interrupt)
 	go func() {

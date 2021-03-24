@@ -1,7 +1,7 @@
-package config
+package router
 
 import (
-	"github.com/Aorjoa/bookstore/module/book"
+	"github.com/Aorjoa/bookstore/book"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
